@@ -1,24 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+import Skeleton from "./components/Skeleton";
+import "./App.css";
 
 function App() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get('https://reqres.in/api/users?page=1')
+      .then((res) => setData(res.data.data));
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ul className="contentWrapper">
+        <h2>Skeleton 💀</h2>
+        {data.length > 0 ?
+          data.map((item) => {
+            return (
+              <li key={item.id} className="item">
+                <div>
+                  <img className="img" src={item.avatar} />
+                </div>
+                <div className="info">
+                  <p>
+                    <strong>
+                      {item.first_name} {item.last_name}
+                    </strong>
+                  </p>
+                  <p>{item.email}</p>
+                </div>
+              </li>
+            );
+          }) : new Array(6).fill(1).map((_, i) => {
+            return <Skeleton key={i} />;
+          })
+          }
+      </ul>
     </div>
   );
 }
