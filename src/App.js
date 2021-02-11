@@ -16,7 +16,7 @@ function App() {
   return (
     <div className="App">
       <ul className="contentWrapper">
-        <h2>Skeleton 💀</h2>
+        <h2>Skeleton React 💀</h2>
         {data.length > 0 ?
           data.map((item) => {
             return (
